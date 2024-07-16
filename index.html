@@ -1,126 +1,104 @@
 
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<title>Orange</title>
-<link rel="stylesheet" href="./css/normalize.min.css">
-<link rel="stylesheet" href="./css/swiper.min.css">
-<link rel="stylesheet" href="./css/style.css">
-<link rel="icon" href="https://cdn.luogu.com.cn/upload/usericon/671739.png">
-</head>
+<html lang="zh-CN" class="mdui-theme-light">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>橙子 の 小站</title>
+        <!-- 引入 mdui -->
+        <link rel="stylesheet" href="./css/mdui/mdui.css">
+        <script src="./css/mdui/mdui.global.js"></script>
+        <link href="./css/googleapi/icon.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <noscript><dialog open><p>请启用 JavaScript 并刷新页面</p></dialog></noscript>
+        <div style="display: flex; align-items: center; justify-content: center;">
+            <img src="./images/avatar.png" style="height: 120px; width: 120px; border-radius: 100%; margin: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);">
+	    <h2>Orange</h2>
+        </div>
+        <div class="mdui-prose" style="display: flex;  justify-content: center; margin: 15px;">
+        <p>
+            哈喽！我<span id="typed"></span>
+            <br>
+            年龄: <span id="randomAge"></span>
+            <br>
+            生日: <a href="https://www.lssjt.com/4/12/" target="_blank">04-12</a>
+            <br>
+            电子邮件: <a href="mailto:orange@zsccodelnc.cn">orange@zsccodelnc.cn</a>
+            <br>
+            <strong>©</strong>2024 <a href="https://orangestd.cn" target="_blank">橙子工作室</a>，保留所有权利
+        </p>
+        </div>
+        <div>
+            <mdui-top-app-bar scroll-behavior="elevate">
+                <mdui-dropdown>
+                    <mdui-button-icon icon="menu" slot="trigger"></mdui-button-icon>
+                    <mdui-menu>
+                        <mdui-menu-item href="./">首页</mdui-menu-item>
+                        <mdui-menu-item href="https://blog.orangestd.cn" target="_blank">博客</mdui-menu-item>
+                        <mdui-menu-item href="https://dk.ya.sy:61981" target="_blank">云盘(暂不对外开放)</mdui-menu-item>
+                    </mdui-menu>
+                </mdui-dropdown>
+                <mdui-top-app-bar-title>橙子 の 小站</mdui-top-app-bar-title>
+                <div style="flex-grow: 1"></div>
+            </mdui-top-app-bar>
+        </div>
 
-<body>
-<div class="blog-slider">
-    <div class="blog-slider__wrp swiper-wrapper">
-        <div class="blog-slider__item swiper-slide">
-            <div class="blog-slider__img">
-                <img src="https://cdn.luogu.com.cn/upload/usericon/671739.png">
-            </div>
-            <div class="blog-slider__content">
-                <div class="blog-slider__title">Orange</div>
-                <div class="blog-slider__text">烂的，不保鲜。</div>
-            </div>
-        </div>
-        <div class="blog-slider__item swiper-slide">
-            <div class="blog-slider__img">
-                <img src="https://cdn.luogu.com.cn/upload/usericon/671739.png">
-            </div>
-            <div class="blog-slider__content">
-                <div class="blog-slider__title">博客(在重构中, 可访问)</div>
-                <div class="blog-slider__text">奇怪知识++;</div>
-                <a href="https://blog.orangestd.cn" class="blog-slider__button" target="_blank">访问</a>
-            </div>
-        </div>
-        <div class="blog-slider__item swiper-slide">
-            <div class="blog-slider__img">
-                <img src="https://cdn.luogu.com.cn/upload/usericon/671739.png">
-            </div>
-            <div class="blog-slider__content">
-                <div class="blog-slider__title">Orange Online Judge</div>
-                <div class="blog-slider__text">可以上去刷点题目之类的</div>
-                <a href="https://rawsite.icu" class="blog-slider__button" target="_blank">访问</a>
-            </div>
-        </div>
-        <div class="blog-slider__item swiper-slide">
-            <div class="blog-slider__img">
-                <img src="https://s2.loli.net/2024/01/24/TLcMkqp18Xo9PwS.png">
-            </div>
-            <div class="blog-slider__content">
-                <div class="blog-slider__title">哔哩哔哩</div>
-                <div class="blog-slider__text">“OrangeTechTips”</div>
-                <a href="https://space.bilibili.com/576114286" class="blog-slider__button" target="_blank">进入</a>
-            </div>
-        </div>
-        <div class="blog-slider__item swiper-slide">
-            <div class="blog-slider__img">
-                <img src="https://icon-library.com/images/icon-png-youtube/icon-png-youtube-27.jpg">
-            </div>
-            <div class="blog-slider__content">
-                <div class="blog-slider__title">Youtube</div>
-                <div class="blog-slider__text">关注一下吧www</div>
-                <a href="https://youtube.com/@Orangeweeeeee" class="blog-slider__button" target="_blank">打开</a>
-            </div>
-        </div>
-        <div class="blog-slider__item swiper-slide">
-            <div class="blog-slider__img">
-                <img src="https://s2.loli.net/2024/01/24/nlpwg4uGxUfCA3a.png">
-            </div>
-            <div class="blog-slider__content">
-                <div class="blog-slider__title">QQ 群</div>
-                <div class="blog-slider__text">一锅粥。</div>
-                <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=JXMCwXr77AYPbzYrAIbBQu5otbijlqfH&authKey=2NVh2uiegCqIzFx%2ByMbuwRQ%2B6%2Fw6GKs%2FyOI8%2F%2BkpTo8h90D%2FN2NPbnxXn0UH5FrE&noverify=0&group_code=856910158" class="blog-slider__button" target="_blank">加入</a>
-            </div>
-        </div>
-        <div class="blog-slider__item swiper-slide">
-            <div class="blog-slider__img">
-                <img src="./assets/tgico.png">
-            </div>
-            <div class="blog-slider__content">
-                <div class="blog-slider__title">Telegram</div>
-                <div class="blog-slider__text">找上门。</div>
-                <a href="https://t.me/qwqOrange" class="blog-slider__button" target="_blank">访问</a>
-            </div>
-        </div>
-        <div class="blog-slider__item swiper-slide">
-            <div class="blog-slider__img">
-                <img src="./assets/xico.webp">
-            </div>
-            <div class="blog-slider__content">
-                <div class="blog-slider__title">Twitter / X</div>
-                <div class="blog-slider__text">我推的特</div>
-                <a href="https://x.com/orangeisidiot" class="blog-slider__button" target="_blank">访问</a>
-            </div>
-        </div>
-        <div class="blog-slider__item swiper-slide">
-            <div class="blog-slider__img">
-                <img src="./assets/discord.png">
-            </div>
-            <div class="blog-slider__content">
-                <div class="blog-slider__title">Discord</div>
-                <div class="blog-slider__text">一锅粥again。</div>
-                <a href="https://discord.gg/cp6AkvC34q" class="blog-slider__button" target="_blank">访问</a>
-            </div>
-        </div>
-        <!-- <div class="blog-slider__item swiper-slide">
-            <div class="blog-slider__img">
-                <img src="https://s2.loli.net/2024/01/24/IHyOT9rgXL2swU8.png">
-            </div>
-            <div class="blog-slider__content">
-                <div class="blog-slider__title">Scratch 社区</div>
-                <div class="blog-slider__text">在这边，找到我的一些作品<br>MIT 官方社区在大陆可能无法访问</div>
-                <a href="https://scratch.mit.edu/users/Creeper_xiaopa" class="blog-slider__button" target="_blank">官方</a>
-                <a href="https://www.ccw.site/student/64aac9967d3f1f63ee3c7eb6" class="blog-slider__button" target="_blank">共创世界</a>
-            </div>
-        </div> -->
-    </div>
-    <div class="blog-slider__pagination"></div>
-</div>
 
-<script src="js/jquery.min.js"></script>
-<script src="js/swiper.min.js"></script>
-<script src="js/index.js"></script>
+        
+        <div class="mdui-prose" style="display: flex;  justify-content: center; margin-top: 20px;">
+        </div>
+        <div class="mdui-prose" style="display: flex;  justify-content: center; margin-top: 0px; opacity: 0.6;">
+        </div>
+        <div style="max-width: 900px; margin: 10px auto;">
+            <mdui-list>
+                <mdui-list-item end-icon="arrow_right" href="https://links.orangestd.cn" target="_blank">
+                    <i style="margin: 5px; color: #fb7299;" class="fas fa-user-friends"></i>
+                    友链
+                </mdui-list-item>
 
-</body>
+            </mdui-list>
+        </div>
 
+
+
+        <div class="mdui-prose" style="display: flex;  justify-content: center; margin-top: 20px;">
+            <h3>社交媒体</h3>
+        </div>
+        <div class="mdui-prose" style="display: flex;  justify-content: center; margin-top: 0px; opacity: 0.6;">
+            <p>在这里找到我</p>
+        </div>
+        <div style="max-width: 900px; margin: 10px auto;">
+            <mdui-list>
+                <mdui-list-item end-icon="arrow_right" href="https://space.bilibili.com/576114286" target="_blank">
+                    <i style="margin: 5px; color: #fb7299;" class="fa-brands fa-bilibili"></i>
+                    哔哩哔哩
+                </mdui-list-item>
+                <mdui-list-item end-icon="arrow_right" href="https://youtube.com/@OrangeIsIdiot" target="_blank">
+                    <i style="margin: 5px; color: bloack;" class="fa-brands fa-tiktok"></i>
+                    YouTube
+                </mdui-list-item>
+                <mdui-list-item end-icon="arrow_right" href="https://t.me/qwqOrange" target="_blank">
+                    <i style="margin: 5px; color: red;" class="fa-brands fa-youtube"></i>
+                    Telegram 
+                </mdui-list-item>
+                <mdui-list-item end-icon="arrow_right" href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=JXMCwXr77AYPbzYrAIbBQu5otbijlqfH&authKey=2NVh2uiegCqIzFx%2ByMbuwRQ%2B6%2Fw6GKs%2FyOI8%2F%2BkpTo8h90D%2FN2NPbnxXn0UH5FrE&noverify=0&group_code=856910158" target="_blank">
+                    <i style="margin: 5px; color: black;;" class="fa-brands fa-qq"></i>
+                    QQ 群
+                </mdui-list-item>
+                <mdui-list-item end-icon="arrow_right" href="https://x.com/orangeisidiot" target="_blank">
+                    <i style="margin: 5px; color: black;;" class="fa-brands fa-twitter"></i>
+                    推特
+                </mdui-list-item>
+                <mdui-list-item end-icon="arrow_right" href="https://discord.gg/cp6AkvC34q" target="_blank">
+                    <i style="margin: 5px; color: black;;" class="fa-brands fa-discord"></i>
+                    Discord 服务器
+                </mdui-list-item>
+            </mdui-list>
+        </div>
+        <!-- 引入脚本 -->
+        <script src="./scripts/typed.umd.js"/></script>
+        <script src="./scripts/script.js"></script>
+    </body>
 </html>
