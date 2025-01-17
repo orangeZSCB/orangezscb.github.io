@@ -54,7 +54,7 @@ src: url(https://www.unifoundry.com/pub/unifont/unifont-16.0.02/font-builds/unif
       }
       /* Pretty background */
       .main-container{
-          background-image:url(https://moe.jitsu.top/api/?sort=pc);
+          background-image:url(https://t.mwm.moe/fj);
           /* background-color:var(--y-d-bg) !important; */
           background-attachment: fixed;
           background-size: cover;
