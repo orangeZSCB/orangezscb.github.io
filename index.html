@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orange ~ Personal Homepage</title>
+    <link rel="icon" type="image/png" href="images/avatar.png">
+    <!-- Font Awesome 6 (免费图标库) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --surface: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.06);
+            --text: #e0e0e0;
+            --muted: #888;
+            --accent: #ff9f43; /* 橘色，呼应Orange */
+            --radius: 24px;
+            --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 20% 20%, #1e2a33, var(--bg) 80%);
+            font-family: var(--font);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            line-height: 1.6;
+            backdrop-filter: blur(2px);
+        }
+
+        /* 玻璃卡片容器 */
+        .card {
+            max-width: 800px;
+            width: 100%;
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 3rem 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+
+        /* 头像与头部 */
+        .profile {
+            text-align: center;
+            margin-bottom: 2.2rem;
+        }
+        .avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 30px rgba(255, 159, 67, 0.3);
+            margin-bottom: 1.25rem;
+            background: #1e1e2f;
+        }
+        .name {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .pronouns {
+            font-size: 0.95rem;
+            color: var(--muted);
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            align-items: center;
+            margin-top: 0.3rem;
+        }
+        .pronouns span {
+            background: rgba(255,255,255,0.05);
+            padding: 0.2rem 1rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        .location {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-top: 0.8rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+        #time {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            background: rgba(0,0,0,0.3);
+            padding: 0.2rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        /* 简介区域 */
+        .bio {
+            background: rgba(255,255,255,0.02);
+            border-radius: 20px;
+            padding: 1.8rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+        }
+        .bio p {
+            margin-bottom: 0.5rem;
+        }
+        .bio strong {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        #typed {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .vibe {
+            font-style: italic;
+            color: #aaa;
+            margin-top: 0.75rem;
+        }
+
+        /* 分区标题 */
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #ddd;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        h2 i {
+            color: var(--accent);
+        }
+
+        /* 技术栈 & 环境图片 */
+        .stack-section, .env-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .stack-section img, .env-section img {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+        }
+        .ms-free {
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        /* 贡献蛇图 */
+        .snake {
+            text-align: center;
+            margin: 2rem 0 1.5rem;
+            opacity: 0.9;
+        }
+        .snake img {
+            max-width: 100%;
+            border-radius: 12px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* 社交链接 */
+        .links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            margin: 2rem 0 1.5rem;
+            font-size: 1.8rem;
+        }
+        .links a {
+            color: #999;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        .links a:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        footer {
+            text-align: center;
+            color: #555;
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 600px) {
+            .card {
+                padding: 2rem 1.5rem;
+            }
+            .name {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+
+        <!-- 头像 + 基础信息 -->
+        <div class="profile">
+            <!-- 确保 images/avatar.png 存在于同目录下 -->
+            <img src="images/avatar.png" alt="Orange's avatar" class="avatar">
+            <h1 class="name">Orange</h1>
+            <div class="pronouns">
+                <span>they</span><span>she</span><span>he</span>
+            </div>
+            <div class="location">
+                <i class="fa-solid fa-location-dot"></i> Shanghai, China ·
+                <span id="time"></span> UTC+8
+            </div>
+        </div>
+
+        <!-- 动态介绍 -->
+        <div class="bio">
+            <p>👋 Hi, I'm Orange — <span id="typed"></span></p>
+            <p>🔭 Working on <strong>Game Developing / AI Tools</strong></p>
+            <p>🌱 Currently learning <strong>Vue, Modern C++, GDScript</strong></p>
+            <p>💬 Ask me anything about coding!</p>
+            <p class="vibe">🤡 Proudly a vibe coder, and yes, Vue is surprisingly nice.</p>
+        </div>
+
+        <!-- 技术栈 -->
+        <div class="stack-section">
+            <h2><i class="fa-solid fa-code"></i> Tech Stack</h2>
+            <img src="https://skillicons.dev/icons?i=github,c,cpp,cs,html,js,css,cloudflare,py,md,bash,docker,git,linux,vim,vscode,vue" alt="Tech stack icons">
+        </div>
+
+        <!-- 工作环境 -->
+        <div class="env-section">
+            <h2><i class="fa-solid fa-terminal"></i> Working Environment</h2>
+            <img src="https://skillicons.dev/icons?i=arch,ubuntu" alt="Arch and Ubuntu icons">
+            <p class="ms-free">Arch Linux on desktop · Ubuntu on server <br> (Microsoft-free zone — you know why)</p>
+        </div>
+
+        <!-- 贪吃蛇贡献图 -->
+        <div class="snake">
+            <img src="https://raw.githubusercontent.com/orangeZSCB/orangeZSCB/refs/heads/master/ctbs.svg" alt="Contribution snake animation">
+        </div>
+
+        <!-- 社交/联系 -->
+        <div class="links">
+            <a href="https://orangestd.cn" target="_blank" title="Homepage (中文)"><i class="fa-solid fa-globe"></i></a>
+            <a href="https://blog.orangestd.cn" target="_blank" title="Blog (中文)"><i class="fa-solid fa-blog"></i></a>
+            <a href="https://x.com/tangeorange" target="_blank" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://t.me/qwqVIOD" target="_blank" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
+            <a href="mailto:orange@zsccodelnc.cn" title="Email"><i class="fa-solid fa-envelope"></i></a>
+            <a href="tencent://message/?uin=462914673" title="QQ"><i class="fa-brands fa-qq"></i></a>
+        </div>
+
+        <footer>
+            © 2025 Orange · Crafted with chaos, vibes & a pinch of <span style="color:var(--accent);">orange</span>.
+        </footer>
+    </div>
+
+    <!-- typed.js 打字效果 -->
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+    <script>
+        // 动态打字机
+        var typed = new Typed('#typed', {
+            strings: [
+                'a game developer',
+                'an AI tools tinkerer',
+                'a vibe coder',
+                'an open source enjoyer',
+                'a Vue newbie but loving it'
+            ],
+            typeSpeed: 50,
+            backSpeed: 30,
+            backDelay: 1800,
+            loop: true
+        });
+
+        // 上海实时时钟 (UTC+8)
+        function updateTime() {
+            const timeEl = document.getElementById('time');
+            const now = new Date();
+            const options = {
+                timeZone: 'Asia/Shanghai',
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            timeEl.textContent = now.toLocaleTimeString('en-US', options);
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>
