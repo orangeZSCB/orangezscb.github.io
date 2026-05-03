@@ -14,7 +14,7 @@
             --border: rgba(255, 255, 255, 0.06);
             --text: #e0e0e0;
             --muted: #888;
-            --accent: #ff9f43; /* 橘色，呼应Orange */
+            --accent: #ff9f43;
             --radius: 24px;
             --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
         }
@@ -50,6 +50,106 @@
             padding: 3rem 2.5rem;
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
             transition: all 0.3s ease;
+        }
+
+        /* ---- 限制访问消息样式 ---- */
+        .restricted-message {
+            display: none;
+            text-align: center;
+        }
+        .restricted-message .warning-icon {
+            font-size: 3.5rem;
+            color: #e74c3c;
+            margin-bottom: 1.2rem;
+        }
+        .restricted-message h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #e74c3c;
+            margin-bottom: 1rem;
+        }
+        .restricted-message p {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            color: #ccc;
+            text-align: left;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .restricted-message p .highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .restricted-message .actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin: 1.8rem 0 1rem;
+        }
+        .restricted-message .actions a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.75rem 1.6rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn-github {
+            background: #24292e;
+            color: #fff;
+        }
+        .btn-github:hover {
+            background: #2c3340;
+            transform: translateY(-2px);
+        }
+        .btn-legacy {
+            background: rgba(255,255,255,0.05);
+            color: #ccc;
+        }
+        .btn-legacy:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+        .restricted-message .footnote {
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: #666;
+            border-top: 1px solid var(--border);
+            padding-top: 1.2rem;
+        }
+        .restricted-message .weibo-link {
+            color: #e74c3c;
+            text-decoration: none;
+            border-bottom: 1px dashed #e74c3c;
+            font-weight: 500;
+        }
+        .restricted-message .weibo-link:hover {
+            color: #ff6b6b;
+        }
+        /* 加载中提示 */
+        .loading-message {
+            text-align: center;
+            padding: 2rem 0;
+        }
+        .loading-message .spinner {
+            animation: spin 1s linear infinite;
+            font-size: 2rem;
+            color: var(--accent);
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ---- 正常内容 ---- */
+        .main-content {
+            display: none;
         }
 
         /* 头像与头部 */
@@ -213,101 +313,227 @@
             .name {
                 font-size: 2.2rem;
             }
+            .restricted-message h2 {
+                font-size: 1.4rem;
+            }
+            .restricted-message .actions a {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="card">
 
-        <!-- 头像 + 基础信息 -->
-        <div class="profile">
-            <!-- 确保 images/avatar.png 存在于同目录下 -->
-            <img src="images/avatar.png" alt="Orange's avatar" class="avatar">
-            <h1 class="name">Orange</h1>
-            <div class="pronouns">
-                <span>they</span><span>she</span><span>he</span>
+        <!-- ====== 加载中提示 ====== -->
+        <div class="loading-message" id="loadingMessage">
+            <div class="spinner"><i class="fa-solid fa-circle-notch"></i></div>
+            <p style="margin-top: 1rem; color: var(--muted);">不自由的不应该领导自由。</p>
+        </div>
+
+        <!-- ====== 限制访问消息（默认隐藏） ====== -->
+        <div class="restricted-message" id="restrictedMessage">
+            <div class="warning-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h2>非常抱歉，本网站不为中国用户提供服务</h2>
+            <p>
+                我们真的很抱歉，但是由于中国的政策限制，大部分基于 GitHub Pages 服务
+                已经被中国反诈中心标记为诈骗网站，包括 skillicons 或者 GitHub Stats
+                服务等。作者对这样的行为深恶痛绝，于是决定不为中国用户提供服务。
+                博客等子网站依旧提供服务。
+                当然，如果您想访问此网站，随便你找个法子。
+            </p>
+            <p>
+                其实，我们很高兴帮助当地机关实行当地法律。要是你很想发泄你的情绪，
+                请审视一下所谓的"自由中文互联网"，然后思考，"这自由吗？"，
+                或者去攻击某个
+                <a href="https://weibo.com/fangbxbupt" target="_blank" class="weibo-link" title="真他妈给北邮丢脸">始作俑者</a>
+                ，这可能会帮助你。祝你好运。
+            </p>
+            <p>
+                如果你认为这是个错误，那大概是因为 ipapi 422 了，请等待五分钟。
+            </p>
+
+            <div class="actions">
+                <a href="https://github.com/orangeZSCB" target="_blank" class="btn-github">
+                    <i class="fa-brands fa-github"></i> GitHub 主页
+                </a>
+                <a href="https://orangestd.cn/index.html.legacy.html" target="_blank" class="btn-legacy">
+                    <i class="fa-solid fa-clock-rotate-left"></i> 老版本网页
+                </a>
             </div>
-            <div class="location">
-                <i class="fa-solid fa-location-dot"></i> Shanghai, China ·
-                <span id="time"></span> UTC+8
+
+            <div class="footnote">
+                <i class="fa-solid fa-shield-halved" style="color: var(--accent);"></i>
+                Your IP info: <span id="restrictedIpInfo">fetching...</span>
             </div>
         </div>
 
-        <!-- 动态介绍 -->
-        <div class="bio">
-            <p>👋 Hi, I'm Orange — <span id="typed"></span></p>
-            <p>🔭 Working on <strong>Game Developing / AI Tools</strong></p>
-            <p>🌱 Currently learning <strong>Vue, Modern C++, GDScript</strong></p>
-            <p>💬 Ask me anything about coding!</p>
-            <p class="vibe">🤡 Proudly a vibe coder, and yes, Vue is surprisingly nice.</p>
+        <!-- ====== 正常内容（默认隐藏） ====== -->
+        <div class="main-content" id="mainContent">
+
+            <!-- 头像 + 基础信息 -->
+            <div class="profile">
+                <img src="images/avatar.png" alt="Orange's avatar" class="avatar">
+                <h1 class="name">Orange</h1>
+                <div class="pronouns">
+                    <span>they</span><span>she</span><span>he</span>
+                </div>
+                <div class="location">
+                    <i class="fa-solid fa-location-dot"></i> Shanghai, China ·
+                    <span id="time"></span> UTC+8
+                </div>
+            </div>
+
+            <!-- 动态介绍 -->
+            <div class="bio">
+                <p>👋 Hi, I'm Orange — <span id="typed"></span></p>
+                <p>🔭 Working on <strong>Game Developing / AI Tools</strong></p>
+                <p>🌱 Currently learning <strong>Vue, Modern C++, GDScript</strong></p>
+                <p>💬 Ask me anything about coding!</p>
+                <p class="vibe">🤡 Proudly a vibe coder, and yes, Vue is surprisingly nice.</p>
+            </div>
+
+            <!-- 技术栈 -->
+            <div class="stack-section">
+                <h2><i class="fa-solid fa-code"></i> Tech Stack</h2>
+                <img src="https://skillicons.dev/icons?i=github,c,cpp,cs,html,js,css,cloudflare,py,md,bash,docker,git,linux,vim,vscode,vue" alt="Tech stack icons">
+            </div>
+
+            <!-- 工作环境 -->
+            <div class="env-section">
+                <h2><i class="fa-solid fa-terminal"></i> Working Environment</h2>
+                <img src="https://skillicons.dev/icons?i=arch,ubuntu" alt="Arch and Ubuntu icons">
+                <p class="ms-free">Arch Linux on desktop · Ubuntu on server <br> (Microsoft-free zone — you know why)</p>
+            </div>
+
+            <!-- 贪吃蛇贡献图 -->
+            <div class="snake">
+                <img src="https://raw.githubusercontent.com/orangeZSCB/orangeZSCB/refs/heads/master/ctbs.svg" alt="Contribution snake animation">
+            </div>
+
+            <!-- 社交/联系 -->
+            <div class="links">
+                <a href="https://orangestd.cn" target="_blank" title="Homepage"><i class="fa-solid fa-globe"></i></a>
+                <a href="https://blog.orangestd.cn" target="_blank" title="Blog (中文)"><i class="fa-solid fa-blog"></i></a>
+                <a href="https://x.com/tangeorange" target="_blank" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://t.me/qwqVIOD" target="_blank" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
+                <a href="mailto:orange@zsccodelnc.cn" title="Email"><i class="fa-solid fa-envelope"></i></a>
+                <a href="tencent://message/?uin=462914673" title="QQ"><i class="fa-brands fa-qq"></i></a>
+            </div>
+
+            <footer>
+                © 2026 Orange · Crafted with chaos, vibes & a pinch of <span style="color:var(--accent);">orange</span>.
+            </footer>
         </div>
 
-        <!-- 技术栈 -->
-        <div class="stack-section">
-            <h2><i class="fa-solid fa-code"></i> Tech Stack</h2>
-            <img src="https://skillicons.dev/icons?i=github,c,cpp,cs,html,js,css,cloudflare,py,md,bash,docker,git,linux,vim,vscode,vue" alt="Tech stack icons">
-        </div>
-
-        <!-- 工作环境 -->
-        <div class="env-section">
-            <h2><i class="fa-solid fa-terminal"></i> Working Environment</h2>
-            <img src="https://skillicons.dev/icons?i=arch,ubuntu" alt="Arch and Ubuntu icons">
-            <p class="ms-free">Arch Linux on desktop · Ubuntu on server <br> (Microsoft-free zone — you know why)</p>
-        </div>
-
-        <!-- 贪吃蛇贡献图 -->
-        <div class="snake">
-            <img src="https://raw.githubusercontent.com/orangeZSCB/orangeZSCB/refs/heads/master/ctbs.svg" alt="Contribution snake animation">
-        </div>
-
-        <!-- 社交/联系 -->
-        <div class="links">
-            <a href="https://orangestd.cn" target="_blank" title="Homepage (中文)"><i class="fa-solid fa-globe"></i></a>
-            <a href="https://blog.orangestd.cn" target="_blank" title="Blog (中文)"><i class="fa-solid fa-blog"></i></a>
-            <a href="https://x.com/tangeorange" target="_blank" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="https://t.me/qwqVIOD" target="_blank" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
-            <a href="mailto:orange@zsccodelnc.cn" title="Email"><i class="fa-solid fa-envelope"></i></a>
-            <a href="tencent://message/?uin=462914673" title="QQ"><i class="fa-brands fa-qq"></i></a>
-        </div>
-
-        <footer>
-            © 2025 Orange · Crafted with chaos, vibes & a pinch of <span style="color:var(--accent);">orange</span>.
-        </footer>
     </div>
 
     <!-- typed.js 打字效果 -->
     <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
     <script>
-        // 动态打字机
-        var typed = new Typed('#typed', {
-            strings: [
-                'a game developer',
-                'an AI tools tinkerer',
-                'a vibe coder',
-                'an open source enjoyer',
-                'a Vue newbie but loving it'
-            ],
-            typeSpeed: 50,
-            backSpeed: 30,
-            backDelay: 1800,
-            loop: true
-        });
+        // ============================================================
+        //  1. IP 地理位置检测 & 访问控制
+        // ============================================================
+        (function() {
+            var loadingEl    = document.getElementById('loadingMessage');
+            var restrictedEl = document.getElementById('restrictedMessage');
+            var mainEl       = document.getElementById('mainContent');
+            var ipInfoSpan   = document.getElementById('restrictedIpInfo');
 
-        // 上海实时时钟 (UTC+8)
-        function updateTime() {
-            const timeEl = document.getElementById('time');
-            const now = new Date();
-            const options = {
-                timeZone: 'Asia/Shanghai',
-                hour12: false,
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            };
-            timeEl.textContent = now.toLocaleTimeString('en-US', options);
+            function showRestricted(ipData) {
+                loadingEl.style.display = 'none';
+                if (ipInfoSpan && ipData) {
+                    ipInfoSpan.textContent = ipData.ip + ' (' + (ipData.country_name || 'Unknown') + ')';
+                }
+                restrictedEl.style.display = 'block';
+                mainEl.style.display = 'none';
+            }
+
+            function showMainContent() {
+                loadingEl.style.display = 'none';
+                restrictedEl.style.display = 'none';
+                mainEl.style.display = 'block';
+
+                // 初始化打字机 & 时钟（仅在正常内容显示时运行）
+                initTyped();
+                initClock();
+            }
+
+            // 调用 ipapi.co 获取位置信息
+            fetch('https://ipapi.co/json/')
+                .then(function(res) {
+                    if (!res.ok) {
+                        // HTTP 错误，放行
+                        showMainContent();
+                        return null;
+                    }
+                    return res.json();
+                })
+                .then(function(data) {
+                    if (!data) return; // 已放行
+                    var countryCode = (data.country_code || '').toUpperCase();
+                    // 记录 IP 信息到控制台（调试用）
+                    console.log('[Orange Page] IP:', data.ip, 'Country:', countryCode);
+
+                    if (countryCode === 'CN') {
+                        showRestricted(data);
+                    } else {
+                        showMainContent();
+                    }
+                })
+                .catch(function(err) {
+                    // 网络错误/跨域等，放行
+                    console.warn('[Orange Page] ipapi error:', err);
+                    showMainContent();
+                });
+        })();
+
+        // ============================================================
+        //  2. 打字机效果（延迟初始化，仅在 mainContent 可见时调用）
+        // ============================================================
+        var typedInstance = null;
+        function initTyped() {
+            if (typedInstance) return;
+            var el = document.getElementById('typed');
+            if (!el) return;
+            typedInstance = new Typed('#typed', {
+                strings: [
+                    'a game developer',
+                    'an AI tools tinkerer',
+                    'a vibe coder',
+                    'an open source enjoyer',
+                    'a Vue newbie but loving it'
+                ],
+                typeSpeed: 50,
+                backSpeed: 30,
+                backDelay: 1800,
+                loop: true
+            });
         }
-        updateTime();
-        setInterval(updateTime, 1000);
+
+        // ============================================================
+        //  3. 上海实时时钟 (UTC+8)
+        // ============================================================
+        var clockInterval = null;
+        function initClock() {
+            if (clockInterval) return;
+            function updateTime() {
+                var timeEl = document.getElementById('time');
+                if (!timeEl) return;
+                var now = new Date();
+                var options = {
+                    timeZone: 'Asia/Shanghai',
+                    hour12: false,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                };
+                timeEl.textContent = now.toLocaleTimeString('en-US', options);
+            }
+            updateTime();
+            clockInterval = setInterval(updateTime, 1000);
+        }
     </script>
 </body>
 </html>
