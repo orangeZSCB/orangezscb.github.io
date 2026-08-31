@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>爱中管路 · 管路选型系统</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #E7ECEE;
+    --panel: #FCFDFD;
+    --ink: #16222B;
+    --steel: #2C4A5E;
+    --steel-dim: #5C7484;
+    --line: #C7D0D3;
+    --accent: #C1440E;
+    --accent-dim: #E7A184;
+    --good: #2E7D4F;
+    --good-bg: #E3F1E8;
+    --mid: #B07A12;
+    --mid-bg: #F5EBD4;
+    --low: #8A97A0;
+    --low-bg: #EDEFF0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--accent-dim); }
+
+  header.top{
+    padding:28px clamp(16px,4vw,48px) 20px;
+    border-bottom:2px solid var(--ink);
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .brand-mark{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.14em;
+    color:var(--steel-dim);
+  }
+  h1{
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:clamp(28px,4vw,42px);
+    margin:2px 0 0;
+    letter-spacing:.01em;
+    color:var(--ink);
+  }
+  .top-right{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--steel-dim);
+    text-align:right;
+    line-height:1.6;
+    max-width:280px;
+  }
+
+  main{
+    display:grid;
+    grid-template-columns: 380px 1fr;
+    gap:0;
+    align-items:start;
+  }
+  @media (max-width: 880px){
+    main{ grid-template-columns: 1fr; }
+  }
+
+  .panel-input{
+    position:sticky;
+    top:0;
+    padding:28px clamp(16px,3vw,32px) 40px;
+    border-right:2px solid var(--ink);
+    min-height:calc(100vh - 96px);
+  }
+  @media (max-width:880px){
+    .panel-input{ position:relative; border-right:none; border-bottom:2px solid var(--ink); min-height:auto; }
+  }
+
+  .field-block{ margin-bottom:28px; }
+  .field-num{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--accent);
+    letter-spacing:.08em;
+  }
+  .field-label{
+    font-family:'Oswald',sans-serif;
+    font-size:17px;
+    font-weight:600;
+    margin:2px 0 10px;
+  }
+  .field-hint{
+    font-size:12.5px;
+    color:var(--steel-dim);
+    margin-top:6px;
+    line-height:1.5;
+  }
+
+  .range-row{ display:flex; gap:10px; align-items:center; }
+  .range-row input[type=number]{
+    width:100%;
+    padding:10px 12px;
+    border:1.5px solid var(--line);
+    background:var(--panel);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:14px;
+    color:var(--ink);
+    border-radius:2px;
+  }
+  .range-row input[type=number]:focus{ outline:none; border-color:var(--steel); }
+  .range-sep{ color:var(--steel-dim); font-family:'IBM Plex Mono',monospace; font-size:13px; }
+
+  .tag-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    padding:7px 12px;
+    border:1.5px solid var(--line);
+    background:var(--panel);
+    color:var(--steel);
+    cursor:pointer;
+    user-select:none;
+    border-radius:2px;
+    transition:border-color .12s, color .12s, background .12s;
+  }
+  .tag:hover{ border-color:var(--steel); }
+  .tag.active{
+    background:var(--ink);
+    border-color:var(--ink);
+    color:#fff;
+  }
+
+  .reset-link{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--steel-dim);
+    text-decoration:underline;
+    cursor:pointer;
+    background:none;
+    border:none;
+    padding:0;
+    margin-top:4px;
+  }
+  .reset-link:hover{ color:var(--accent); }
+
+  .panel-results{
+    padding:28px clamp(16px,3vw,32px) 60px;
+  }
+  .results-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    border-bottom:1.5px solid var(--ink);
+    padding-bottom:10px;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .results-head h2{
+    font-family:'Oswald',sans-serif;
+    font-size:20px;
+    margin:0;
+    font-weight:600;
+  }
+  .results-count{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    color:var(--steel-dim);
+  }
+
+  .card{
+    border:1.5px solid var(--ink);
+    background:var(--panel);
+    margin-bottom:16px;
+    animation:rise .32s ease both;
+  }
+  @keyframes rise{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    padding:16px 18px 14px;
+    gap:16px;
+    cursor:pointer;
+  }
+  .card-code{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--accent);
+    letter-spacing:.05em;
+  }
+  .card-name{
+    font-family:'Oswald',sans-serif;
+    font-size:19px;
+    font-weight:600;
+    margin:2px 0 6px;
+  }
+  .card-scenario{
+    font-size:13px;
+    color:var(--steel-dim);
+    line-height:1.5;
+  }
+  .badge{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    font-weight:600;
+    padding:5px 10px;
+    border-radius:2px;
+    white-space:nowrap;
+    letter-spacing:.03em;
+  }
+  .badge.good{ background:var(--good-bg); color:var(--good); }
+  .badge.mid{ background:var(--mid-bg); color:var(--mid); }
+  .badge.low{ background:var(--low-bg); color:var(--low); }
+
+  .card-reasons{
+    padding:0 18px 14px;
+    font-size:12.5px;
+    color:var(--steel);
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px 14px;
+  }
+  .reason{ display:flex; align-items:center; gap:5px; }
+  .dot{ width:6px; height:6px; border-radius:50%; flex:none; }
+  .dot.good{ background:var(--good); }
+  .dot.bad{ background:var(--accent); }
+
+  .spec-table{
+    border-top:1.5px solid var(--line);
+    display:none;
+  }
+  .spec-table.open{ display:grid; grid-template-columns: repeat(3, 1fr); }
+  @media (max-width:640px){ .spec-table.open{ grid-template-columns: repeat(2,1fr); } }
+  .spec-cell{
+    padding:12px 18px;
+    border-right:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .spec-cell:last-child{ border-right:none; }
+  .spec-k{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    color:var(--steel-dim);
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    margin-bottom:4px;
+  }
+  .spec-v{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:14px;
+    color:var(--ink);
+  }
+
+  .empty-state{
+    padding:60px 20px;
+    text-align:center;
+    color:var(--steel-dim);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    border:1.5px dashed var(--line);
+  }
+
+  .special-note{
+    margin-top:30px;
+    padding:16px 18px;
+    border:1.5px dashed var(--line);
+    font-size:13px;
+    color:var(--steel-dim);
+    line-height:1.6;
+  }
+  .special-note b{ color:var(--ink); }
+
+  footer{
+    padding:20px clamp(16px,4vw,48px) 30px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--steel-dim);
+    border-top:1.5px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div>
+    <div class="brand-mark">爱中管路 · AIZHONG PIPE SYSTEMS</div>
+    <h1>管路选型系统</h1>
+  </div>
+  <div class="top-right">
+    输入工况参数<br>
+    自动匹配库内 15 款管材规格
+  </div>
+</header>
+
+<main>
+  <div class="panel-input">
+
+    <div class="field-block">
+      <div class="field-num">01 / 温度</div>
+      <div class="field-label">工作温度范围 (℃)</div>
+      <div class="range-row">
+        <input type="number" id="tempMin" placeholder="最低">
+        <span class="range-sep">至</span>
+        <input type="number" id="tempMax" placeholder="最高">
+      </div>
+      <div class="field-hint">留空表示不限制温度条件</div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-num">02 / 压力</div>
+      <div class="field-label">实际工作压力需求 (MPa)</div>
+      <div class="range-row">
+        <input type="number" id="pressureNeed" placeholder="例如 1.5" step="0.1">
+      </div>
+      <div class="field-hint">填写管路实际承受的工作压力，系统会核对每款管材的额定工作压力上限</div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-num">03 / 场景</div>
+      <div class="field-label">使用场景 / 特殊要求</div>
+      <div class="tag-grid" id="tagGrid"></div>
+    </div>
+
+    <button class="reset-link" onclick="resetAll()">清空全部条件</button>
+  </div>
+
+  <div class="panel-results">
+    <div class="results-head">
+      <h2>匹配结果</h2>
+      <div class="results-count" id="resultCount"></div>
+    </div>
+    <div id="results"></div>
+
+    <div class="special-note">
+      <b>另有送钉专用管（AZ16G）</b>：圆形送钉管 / 矩形送钉管 / T型送钉管，三种截面形状，无通用工况参数，如有需要请单独确认型号。
+    </div>
+  </div>
+</main>
+
+<footer>数据来源：爱中管路产品规格表 · 匹配结果仅供选型参考，最终请以实测和厂家确认为准</footer>
+
+<script>
+const PIPES = [
+  {code:'AZ01G', name:'TPU管 1495 B级料软管', tempMin:-30, tempMax:60, burstMin:3.0, burstMax:4.5, tear:'180kg/cm²', abrasion:'25~35mg', pressureOp:1.2, pressureSign:'<', tensile:'650kg/cm²', elong:'500%~620%', hardness:'95A（邵氏）', scenarioText:'常温 常压', tags:['常温常压']},
+  {code:'AZ02G', name:'TPU管 1295 E级料软管', tempMin:-30, tempMax:60, burstMin:3.0, burstMax:4.5, tear:'150kg/cm²', abrasion:'30~40mg', pressureOp:1.0, pressureSign:'<', tensile:'550kg/cm²', elong:'400%~500%', hardness:'95A（邵氏）', scenarioText:'常温 常压', tags:['常温常压']},
+  {code:'AZ03G', name:'尼龙管（PA6）硬管', tempMin:-35, tempMax:125, burstMin:6.0, burstMax:8.0, tear:'260kg/cm²', abrasion:'40~45mg', pressureOp:3.5, pressureSign:'<', tensile:'430kg/cm²', elong:'100%~200%', hardness:'65D±5', scenarioText:'油 液 气 高压力 弱酸碱 润滑系统', tags:['油液气润滑','高压环境','酸碱环境']},
+  {code:'AZ04G', name:'软尼龙（PA12-63）软管', tempMin:-35, tempMax:125, burstMin:4.0, burstMax:6.0, tear:'230kg/cm²', abrasion:'30~40mg', pressureOp:2.5, pressureSign:'<', tensile:'750kg/cm²', elong:'150%~220%', hardness:'55D±5', scenarioText:'油 液 气 高压力 弱酸碱 润滑系统 可以进拖链', tags:['油液气润滑','高压环境','酸碱环境','拖链']},
+  {code:'AZ05G', name:'尼龙管（PA12）软管', tempMin:-35, tempMax:120, burstMin:4.0, burstMax:6.0, tear:'240kg/cm²', abrasion:'30~40mg', pressureOp:3.0, pressureSign:'<', tensile:'800kg/cm²', elong:'160%~230%', hardness:'55D±5', scenarioText:'汽车行业 锂电行业 新能源行业', tags:['汽车行业','锂电新能源']},
+  {code:'AZ06G', name:'防静电管 软管', tempMin:-30, tempMax:60, burstMin:3.0, burstMax:4.5, tear:'150kg/cm²', abrasion:'30~40mg', pressureOp:1.0, pressureSign:'>', tensile:'550kg/cm²', elong:'400%~500%', hardness:'95A（邵氏）', scenarioText:'粉尘环境 锂电行业', tags:['粉尘防静电','锂电新能源']},
+  {code:'AZ07G', name:'硅胶管 软管', tempMin:-50, tempMax:200, burstMin:1.5, burstMax:2.0, tear:'130kg/cm²', abrasion:'20~30mg', pressureOp:0.8, pressureSign:'<', tensile:'300kg/cm²', elong:'600%~700%', hardness:'80A（邵氏）', scenarioText:'食品行业 自动化设备 高温环境 低温环境', tags:['食品行业','自动化设备','高温环境','低温环境']},
+  {code:'AZ08G', name:'特氟龙聚醚复合管 软管', tempMin:-35, tempMax:80, burstMin:4.0, burstMax:6.0, tear:'200kg/cm²', abrasion:'25~35mg', pressureOp:2.0, pressureSign:'<', tensile:'680kg/cm²', elong:'150%~220%', hardness:'90A（邵氏）', scenarioText:'机床行业 喷涂行业 酸碱环境 切削液', tags:['机床喷涂','酸碱环境','切削液']},
+  {code:'AZ09G', name:'特氟龙聚醚复合编织管 软管', tempMin:-35, tempMax:110, burstMin:12, burstMax:16, tear:'280kg/cm²', abrasion:'25~35mg', pressureOp:4.0, pressureSign:'<', tensile:'800kg/cm²', elong:'100%~200%', hardness:'95A（邵氏）', scenarioText:'高压环境 酸碱环境（唯一一款高压软管）', tags:['高压环境','酸碱环境']},
+  {code:'AZ10G', name:'防爆阻燃管 软管', tempMin:-30, tempMax:90, burstMin:3.0, burstMax:4.5, tear:'180kg/cm²', abrasion:'30~40mg', pressureOp:1.0, pressureSign:'<', tensile:'550kg/cm²', elong:'400%~500%', hardness:'95A（邵氏）', scenarioText:'焊接机器人 汽车夹具 自动化设备', tags:['焊接机器人','汽车行业','自动化设备']},
+  {code:'AZ11G', name:'特氟龙管（PTFE）乳白 硬管', tempMin:-35, tempMax:230, burstMin:4.0, burstMax:6.0, tear:'210kg/cm²', abrasion:'40~45mg', pressureOp:2.0, pressureSign:'<', tensile:'750kg/cm²', elong:'100%~200%', hardness:'65D±5', scenarioText:'强酸碱环境 高温环境', tags:['强酸碱环境','高温环境']},
+  {code:'AZ12G', name:'特氟龙管（FEP）透明 硬管', tempMin:-35, tempMax:200, burstMin:4.0, burstMax:6.0, tear:'210kg/cm²', abrasion:'40~45mg', pressureOp:2.0, pressureSign:'<', tensile:'750kg/cm²', elong:'150%~220%', hardness:'65D±5', scenarioText:'强酸碱环境 高温环境', tags:['强酸碱环境','高温环境']},
+  {code:'AZ13G', name:'全氟树脂复合管', tempMin:-35, tempMax:60, burstMin:4.0, burstMax:6.0, tear:'210kg/cm²', abrasion:'40~45mg', pressureOp:2.0, pressureSign:'<', tensile:'750kg/cm²', elong:'100%~200%', hardness:'55D±5', scenarioText:'强酸碱环境 喷涂行业 食品行业 医疗行业', tags:['强酸碱环境','机床喷涂','食品行业','医疗行业']},
+  {code:'AZ14G', name:'三元乙丙管', tempMin:0, tempMax:100, burstMin:2.0, burstMax:3.0, tear:'190kg/cm²', abrasion:'15~25mg', pressureOp:1.0, pressureSign:'<', tensile:'500kg/cm²', elong:'200%~350%', hardness:'60A', scenarioText:'冷却系统 热水管', tags:['冷却热水']},
+  {code:'AZ15G', name:'耐酸碱软管', tempMin:-30, tempMax:60, burstMin:2.5, burstMax:3.5, tear:'180kg/cm²', abrasion:'25~35mg', pressureOp:1.0, pressureSign:'<', tensile:'650kg/cm²', elong:'500%~620%', hardness:'90A', scenarioText:'低温 常温 常压 耐酸碱', tags:['常温常压','低温环境','酸碱环境']},
+];
+
+const TAG_LABELS = [
+  '常温常压','高温环境','低温环境','酸碱环境','强酸碱环境','高压环境',
+  '食品行业','医疗行业','汽车行业','锂电新能源','粉尘防静电',
+  '自动化设备','机床喷涂','焊接机器人','冷却热水','切削液','拖链','油液气润滑'
+];
+
+let selectedTags = new Set();
+
+function buildTagGrid(){
+  const grid = document.getElementById('tagGrid');
+  grid.innerHTML = '';
+  TAG_LABELS.forEach(label=>{
+    const el = document.createElement('div');
+    el.className = 'tag';
+    el.textContent = label;
+    el.onclick = ()=>{
+      if(selectedTags.has(label)){ selectedTags.delete(label); el.classList.remove('active'); }
+      else { selectedTags.add(label); el.classList.add('active'); }
+      render();
+    };
+    grid.appendChild(el);
+  });
+}
+
+function resetAll(){
+  document.getElementById('tempMin').value='';
+  document.getElementById('tempMax').value='';
+  document.getElementById('pressureNeed').value='';
+  selectedTags.clear();
+  document.querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));
+  render();
+}
+
+function evaluate(pipe, tempMin, tempMax, pressureNeed, tags){
+  let score = 0, maxScore = 0;
+  let reasons = [];
+  let hasAnyInput = false;
+
+  // temperature check
+  if(tempMin !== null || tempMax !== null){
+    hasAnyInput = true;
+    maxScore += 40;
+    const needMin = tempMin !== null ? tempMin : pipe.tempMin;
+    const needMax = tempMax !== null ? tempMax : pipe.tempMax;
+    if(pipe.tempMin <= needMin && pipe.tempMax >= needMax){
+      score += 40;
+      reasons.push({good:true, text:`温度范围覆盖 ${pipe.tempMin}~${pipe.tempMax}℃`});
+    } else {
+      const overlap = Math.min(pipe.tempMax, needMax) - Math.max(pipe.tempMin, needMin);
+      if(overlap > 0){
+        score += 15;
+        reasons.push({good:false, text:`温度范围仅部分覆盖（管材 ${pipe.tempMin}~${pipe.tempMax}℃）`});
+      } else {
+        reasons.push({good:false, text:`温度范围不满足（管材 ${pipe.tempMin}~${pipe.tempMax}℃）`});
+      }
+    }
+  }
+
+  // pressure check
+  if(pressureNeed !== null){
+    hasAnyInput = true;
+    maxScore += 35;
+    let ok;
+    if(pipe.pressureSign === '<'){ ok = pressureNeed <= pipe.pressureOp; }
+    else { ok = pressureNeed >= pipe.pressureOp; }
+    if(ok){
+      score += 35;
+      reasons.push({good:true, text:`工作压力额定 ${pipe.pressureSign}${pipe.pressureOp}MPa，满足需求`});
+    } else {
+      reasons.push({good:false, text:`工作压力额定 ${pipe.pressureSign}${pipe.pressureOp}MPa，与需求不符`});
+    }
+  }
+
+  // scenario tags
+  if(tags.size > 0){
+    hasAnyInput = true;
+    maxScore += 25;
+    const matched = [...tags].filter(t=>pipe.tags.includes(t));
+    const ratio = matched.length / tags.size;
+    score += ratio * 25;
+    if(matched.length > 0){
+      reasons.push({good:true, text:`适用场景匹配：${matched.join(' / ')}`});
+    } else {
+      reasons.push({good:false, text:'所选场景标签均未匹配'});
+    }
+  }
+
+  const pct = maxScore > 0 ? Math.round((score/maxScore)*100) : null;
+  return {pct, reasons, hasAnyInput};
+}
+
+function render(){
+  const tempMin = document.getElementById('tempMin').value === '' ? null : parseFloat(document.getElementById('tempMin').value);
+  const tempMax = document.getElementById('tempMax').value === '' ? null : parseFloat(document.getElementById('tempMax').value);
+  const pressureNeed = document.getElementById('pressureNeed').value === '' ? null : parseFloat(document.getElementById('pressureNeed').value);
+
+  const results = document.getElementById('results');
+  const anyInput = (tempMin!==null || tempMax!==null || pressureNeed!==null || selectedTags.size>0);
+
+  let scored = PIPES.map(p=>{
+    const ev = evaluate(p, tempMin, tempMax, pressureNeed, selectedTags);
+    return {pipe:p, ...ev};
+  });
+
+  if(anyInput){
+    scored.sort((a,b)=> (b.pct ?? 0) - (a.pct ?? 0));
+  }
+
+  document.getElementById('resultCount').textContent = anyInput
+    ? `共 ${PIPES.length} 款，按匹配度排序`
+    : `库内共 ${PIPES.length} 款管材，填写左侧条件开始匹配`;
+
+  results.innerHTML = '';
+
+  scored.forEach((item, idx)=>{
+    const p = item.pipe;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.animationDelay = (idx*0.03)+'s';
+
+    let badgeHtml = '';
+    if(anyInput && item.pct !== null){
+      let cls = 'low', label = '匹配度低';
+      if(item.pct >= 75){ cls='good'; label='高匹配'; }
+      else if(item.pct >= 40){ cls='mid'; label='部分匹配'; }
+      badgeHtml = `<span class="badge ${cls}">${label} · ${item.pct}%</span>`;
+    }
+
+    const top = document.createElement('div');
+    top.className = 'card-top';
+    top.innerHTML = `
+      <div>
+        <div class="card-code">${p.code}</div>
+        <div class="card-name">${p.name}</div>
+        <div class="card-scenario">${p.scenarioText}</div>
+      </div>
+      ${badgeHtml}
+    `;
+    top.onclick = ()=>{
+      const t = card.querySelector('.spec-table');
+      t.classList.toggle('open');
+    };
+    card.appendChild(top);
+
+    if(anyInput && item.reasons.length){
+      const reasonsEl = document.createElement('div');
+      reasonsEl.className = 'card-reasons';
+      reasonsEl.innerHTML = item.reasons.map(r=>`<div class="reason"><span class="dot ${r.good?'good':'bad'}"></span>${r.text}</div>`).join('');
+      card.appendChild(reasonsEl);
+    }
+
+    const spec = document.createElement('div');
+    spec.className = 'spec-table';
+    spec.innerHTML = `
+      <div class="spec-cell"><div class="spec-k">工作温度</div><div class="spec-v">${p.tempMin}~${p.tempMax}℃</div></div>
+      <div class="spec-cell"><div class="spec-k">爆破压力</div><div class="spec-v">${p.burstMin}~${p.burstMax}MPa</div></div>
+      <div class="spec-cell"><div class="spec-k">工作压力</div><div class="spec-v">${p.pressureSign}${p.pressureOp}MPa</div></div>
+      <div class="spec-cell"><div class="spec-k">撕裂强度</div><div class="spec-v">${p.tear}</div></div>
+      <div class="spec-cell"><div class="spec-k">磨损强度</div><div class="spec-v">${p.abrasion}</div></div>
+      <div class="spec-cell"><div class="spec-k">拉伸强度</div><div class="spec-v">${p.tensile}</div></div>
+      <div class="spec-cell"><div class="spec-k">延展率</div><div class="spec-v">${p.elong}</div></div>
+      <div class="spec-cell"><div class="spec-k">硬度</div><div class="spec-v">${p.hardness}</div></div>
+      <div class="spec-cell"><div class="spec-k">适用场景</div><div class="spec-v">${p.scenarioText}</div></div>
+    `;
+    card.appendChild(spec);
+
+    results.appendChild(card);
+  });
+}
+
+buildTagGrid();
+['tempMin','tempMax','pressureNeed'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', render);
+});
+render();
+</script>
+</body>
+</html>
